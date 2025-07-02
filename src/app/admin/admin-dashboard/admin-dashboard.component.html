@@ -1,0 +1,29 @@
+<p>admin-dashboard works!</p>
+<!-- admin-dashboard.component.html -->
+<div class="container py-4">
+  <h2 class="mb-4">👑 Admin Dashboard - Manage HRs</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let hr of hrList">
+      <div class="card border border-secondary shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ hr.name }}</h5>
+          <p class="card-text">
+            <strong>Email:</strong> {{ hr.email }}<br>
+            <strong>Contact:</strong> {{ hr.contact }}<br>
+            <strong>Status:</strong> 
+            <span class="badge" [ngClass]="{'bg-success': hr.status === 'Active', 'bg-danger': hr.status === 'Inactive'}">
+              {{ hr.status }}
+            </span>
+          </p>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-sm btn-warning" (click)="toggleStatus(hr)">
+              {{ hr.status === 'Active' ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteHR(hr.email)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

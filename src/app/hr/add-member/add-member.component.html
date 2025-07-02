@@ -1,0 +1,44 @@
+<p>add-member works!</p>
+<div class="container py-4">
+  <h3>Add New Employee</h3>
+
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+    <div class="mb-2">
+      <label>Name</label>
+      <input formControlName="name" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+      <label>Gender</label><br />
+      <label><input type="radio" value="Male" formControlName="gender" /> Male</label>
+      <label class="ms-3"><input type="radio" value="Female" formControlName="gender" /> Female</label>
+    </div>
+
+    <div class="mb-2">
+      <label>Role</label>
+      <select formControlName="role" class="form-select">
+        <option value="">Select</option>
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <label>Salary</label>
+      <input formControlName="salary" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+      <label>Contact</label>
+      <input formControlName="contact" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+      <label>Hobbies</label><br />
+      <ng-container *ngFor="let h of hobbiesList">
+        <label><input type="checkbox" [value]="h" (change)="onCheckboxChange($event)" /> {{ h }}</label>&nbsp;
+      </ng-container>
+    </div>
+
+    <button class="btn btn-primary">Add Member</button>
+  </form>
+</div>

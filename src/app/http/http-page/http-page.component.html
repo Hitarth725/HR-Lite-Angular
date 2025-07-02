@@ -1,0 +1,28 @@
+<p>http-page works!</p>
+<!-- http-page.component.html -->
+<div class="container py-4">
+  <h2>🌐 HTTP API Simulation</h2>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <form (ngSubmit)="submitPost()" class="mb-4">
+    <input class="form-control mb-2" placeholder="Title" [(ngModel)]="newPost.title" name="title" required />
+    <textarea class="form-control mb-2" rows="3" placeholder="Body" [(ngModel)]="newPost.body" name="body"
+      required></textarea>
+    <button class="btn btn-primary">{{ updateMode ? 'Update Post' : 'Create Post' }}</button>
+    <button class="btn btn-secondary ms-2" type="button" (click)="resetForm()" *ngIf="updateMode">Cancel</button>
+  </form>
+
+  <div class="row">
+    <div class="col-md-6 mb-3" *ngFor="let post of posts">
+      <div class="card">
+        <div class="card-body">
+          <h5>{{ post.title }}</h5>
+          <p>{{ post.body }}</p>
+          <button class="btn btn-sm btn-info" (click)="edit(post)">Edit</button>
+          <button class="btn btn-sm btn-danger ms-2" (click)="delete(post.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

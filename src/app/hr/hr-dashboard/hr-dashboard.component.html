@@ -1,0 +1,25 @@
+<p>hr-dashboard works!</p>
+<div class="container py-4">
+  <h2>Your Employees</h2>
+
+  <div class="row" *ngIf="employeeList.length > 0; else noData">
+    <div class="col-md-4 mb-3" *ngFor="let emp of employeeList">
+      <div class="card shadow">
+        <div class="card-body">
+          <h5>{{ emp.name }}</h5>
+          <p>
+            Gender: {{ emp.gender }} <br />
+            Role: {{ emp.role }} <br />
+            Contact: {{ emp.contact }} <br />
+            Salary: {{ emp.salary | salary }} <br />
+            Hobbies: {{ emp.hobbies.join(', ') }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p>No employees added yet.</p>
+  </ng-template>
+</div>

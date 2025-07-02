@@ -1,0 +1,108 @@
+<!-- <p>register works!</p> -->
+
+<div *ngIf="toastMessage" class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div class="toast show text-white bg-success" role="alert">
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+  </div>
+</div>
+
+<!-- src/app/auth/register/register.component.html -->
+<div class="container py-5">
+  <h2>📝 Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <!-- Name -->
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name">
+      <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
+      <small *ngIf="registerForm.get('name')?.errors?.['whitespace']">Name cannot be blank.</small>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" class="form-control" formControlName="email">
+      <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
+      <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label>Password</label>
+      <input type="password" class="form-control" formControlName="password">
+      <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+      <small *ngIf="registerForm.get('password')?.errors?.['weakPassword']">Use at least 6 chars, 1 uppercase, 1 number.</small>
+    </div>
+    <div class="mb-3">
+      <label>Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" class="form-control" />
+      <small class="text-danger"
+        *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+          Passwords do not match.
+      </small>
+    </div>
+
+
+    <!-- Gender -->
+    <div class="mb-3">
+      <label>Gender</label><br>
+      <label><input type="radio" formControlName="gender" value="Male"> Male</label>
+      <label class="ms-3"><input type="radio" formControlName="gender" value="Female"> Female</label>
+    </div>
+
+    <!-- Hobbies -->
+    <div class="mb-3">
+      <label>Hobbies</label><br>
+      <ng-container *ngFor="let hobby of hobbiesList">
+        <label><input type="checkbox" [value]="hobby" (change)="onCheckboxChange($event)"> {{ hobby }}</label>&nbsp;
+      </ng-container>
+    </div>
+
+    <!-- Role -->
+    <div class="mb-3">
+      <label>Role</label>
+      <select formControlName="role" class="form-select">
+        <option value="">-- Select --</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+
+    <!-- Admin Dropdown -->
+    <div class="mb-3" *ngIf="showAdminDropdown">
+      <label>Assign Admin</label>
+      <select formControlName="assignedAdmin" class="form-select">
+        <option value="">-- Select Admin --</option>
+        <option *ngFor="let admin of admins" [value]="admin.email">{{ admin.name }}</option>
+      </select>
+      <small *ngIf="registerForm.get('assignedAdmin')?.errors?.['required']">Admin selection required for HR.</small>
+    </div>
+
+    <!-- Salary -->
+    <div class="mb-3">
+      <label>Salary</label>
+      <input type="text" class="form-control" formControlName="salary">
+      <small *ngIf="registerForm.get('salary')?.errors?.['required']">Salary is required.</small>
+      <small *ngIf="registerForm.get('salary')?.errors?.['pattern']">Only digits allowed.</small>
+    </div>
+
+    <!-- Designation -->
+    <div class="mb-3">
+      <label>Designation</label>
+      <input type="text" class="form-control" formControlName="designation">
+    </div>
+
+    <!-- Contact -->
+    <div class="mb-3">
+      <label>Contact</label>
+      <input type="text" class="form-control" formControlName="contact">
+      <small *ngIf="registerForm.get('contact')?.errors?.['required']">Contact is required.</small>
+      <small *ngIf="registerForm.get('contact')?.errors?.['pattern']">Must be 10-digit number.</small>
+    </div>
+
+    <!-- Submit -->
+  <button class="btn btn-primary w-100" type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>
