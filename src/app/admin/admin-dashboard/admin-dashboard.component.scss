@@ -1,7 +1,153 @@
-/* admin-dashboard.component.scss */
-.card {
-  border-radius: 10px;
+.admin-dashboard {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.card-title {
-  font-weight: 600;
+
+.dashboard-header {
+  margin-bottom: 30px;
+
+  .dashboard-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin-bottom: 8px;
+
+    svg {
+      color: #4f46e5;
+    }
+  }
+
+  .dashboard-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.hr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.hr-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.hr-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+
+  .hr-name {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .status-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+
+    &.active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    &.inactive {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  }
+}
+
+.hr-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    font-size: 0.95rem;
+
+    svg {
+      color: #64748b;
+    }
+  }
+}
+
+.hr-actions {
+  display: flex;
+  gap: 10px;
+
+  .action-button {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    &.toggle-status {
+      background: #e0e7ff;
+      color: #4f46e5;
+      border: none;
+
+      &:hover {
+        background: #c7d2fe;
+      }
+    }
+
+    &.delete {
+      background: white;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+
+      &:hover {
+        background: #fee2e2;
+      }
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 20px 15px;
+  }
+
+  .hr-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'auth/login', component: LoginComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'user-dashboard', component: HrDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'add-member', component: AddMemberComponent, canActivate: [AuthGuard] },
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], data: { role: 'Admin' } },
+  { path: 'user-dashboard', component: HrDashboardComponent, canActivate: [AuthGuard], data: { role: 'HR' } },
+  { path: 'add-member', component: AddMemberComponent, canActivate: [AuthGuard], data: { role: 'HR' } },
   { path: 'http', component: HttpPageComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'auth/login' },
 ];

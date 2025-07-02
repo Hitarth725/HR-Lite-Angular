@@ -1,18 +1,269 @@
-// register.component.scss
-input.ng-invalid.ng-touched,
-select.ng-invalid.ng-touched {
-  border-color: red;
+@import '~animate.css/animate.min.css';
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding: 20px;
 }
-.toast-container {
-  z-index: 9999;
+
+.register-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
 }
+
+.register-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  .logo-circle {
+    width: 48px;
+    height: 48px;
+    background: #4f46e5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+
+    svg {
+      color: white;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+
+  .subtext {
+    color: #64748b;
+    font-size: 14px;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  &.invalid {
+    border-color: #dc2626;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+  }
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    input {
+      margin-right: 8px;
+    }
+
+    .radio-label {
+      font-size: 14px;
+      color: #1e293b;
+    }
+  }
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+
+    input {
+      margin-right: 6px;
+    }
+
+    .checkbox-label {
+      color: #1e293b;
+    }
+  }
+}
+
+.password-strength {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+
+  .strength-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+
+    &.bg-danger {
+      background: #dc2626;
+    }
+    &.bg-warning {
+      background: #f59e0b;
+    }
+    &.bg-success {
+      background: #10b981;
+    }
+  }
+}
+
+.register-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #4338ca;
+  }
+
+  &:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-link {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+
+  a {
+    color: #4f46e5;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .toast-message {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  animation: fadeIn 0.3s ease;
+
+  &.success {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .toast-icon {
+    background: currentColor;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .register-card {
+    padding: 30px 20px;
+  }
+  
+  .radio-group, .checkbox-group {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

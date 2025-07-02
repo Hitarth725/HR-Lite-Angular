@@ -1,26 +1,77 @@
-<p>http-page works!</p>
-<!-- http-page.component.html -->
-<div class="container py-4">
-  <h2>🌐 HTTP API Simulation</h2>
+<!-- Toast Message -->
+<div *ngIf="toastMessage" class="toast-box">
+  {{ toastMessage }}
+</div>
 
-  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-  <form (ngSubmit)="submitPost()" class="mb-4">
-    <input class="form-control mb-2" placeholder="Title" [(ngModel)]="newPost.title" name="title" required />
-    <textarea class="form-control mb-2" rows="3" placeholder="Body" [(ngModel)]="newPost.body" name="body"
-      required></textarea>
-    <button class="btn btn-primary">{{ updateMode ? 'Update Post' : 'Create Post' }}</button>
-    <button class="btn btn-secondary ms-2" type="button" (click)="resetForm()" *ngIf="updateMode">Cancel</button>
-  </form>
+<div class="http-page">
+  <div class="page-container">
+    <div class="page-header">
+      <h1 class="page-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9h16"></path>
+          <path d="M4 15h16"></path>
+          <path d="M10 3L8 21"></path>
+          <path d="M16 3l-2 18"></path>
+        </svg>
+        HTTP API Simulation
+      </h1>
+      <p class="page-subtitle">Test CRUD operations with simulated API calls</p>
+    </div>
 
-  <div class="row">
-    <div class="col-md-6 mb-3" *ngFor="let post of posts">
-      <div class="card">
-        <div class="card-body">
-          <h5>{{ post.title }}</h5>
-          <p>{{ post.body }}</p>
-          <button class="btn btn-sm btn-info" (click)="edit(post)">Edit</button>
-          <button class="btn btn-sm btn-danger ms-2" (click)="delete(post.id)">Delete</button>
+    <div class="error-message" *ngIf="errorMessage">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="submitPost()" class="post-form">
+      <div class="form-group">
+        <label for="post-title">Title</label>
+        <input id="post-title" class="form-input" placeholder="Enter post title" 
+               [(ngModel)]="newPost.title" name="title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="post-body">Content</label>
+        <textarea id="post-body" class="form-input" rows="3" placeholder="Enter post content"
+                  [(ngModel)]="newPost.body" name="body" required></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button">
+          {{ updateMode ? 'Update Post' : 'Create Post' }}
+        </button>
+        <button type="button" class="cancel-button" (click)="resetForm()" *ngIf="updateMode">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <div class="posts-grid">
+      <div class="post-card" *ngFor="let post of posts">
+        <div class="post-content">
+          <h3 class="post-title">{{ post.title }}</h3>
+          <p class="post-body">{{ post.body }}</p>
+        </div>
+        <div class="post-actions">
+          <button class="edit-button" (click)="edit(post)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Edit
+          </button>
+          <button class="delete-button" (click)="delete(post.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            Delete
+          </button>
         </div>
       </div>
     </div>

@@ -1,108 +1,203 @@
-<!-- <p>register works!</p> -->
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <div class="logo-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+      </div>
+      <h1>Create Account</h1>
+      <p class="subtext">Join our community today</p>
+    </div>
 
-<div *ngIf="toastMessage" class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div class="toast show text-white bg-success" role="alert">
-    <div class="toast-body">
+    <div *ngIf="toastMessage" class="toast-message" [ngClass]="{'error': toastType === 'error', 'success': toastType === 'success'}">
+      <span class="toast-icon">{{ toastType === 'success' ? '✓' : '!' }}</span>
       {{ toastMessage }}
     </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="row g-3">
+        <!-- Personal Info -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" class="form-input" formControlName="name"
+                   placeholder="Enter your full name" 
+                   [ngClass]="{'invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}">
+            <div class="error-message" *ngIf="registerForm.get('name')?.errors?.['required'] && registerForm.get('name')?.touched">
+              Name is required
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('name')?.errors?.['whitespace'] && registerForm.get('name')?.touched">
+              Name cannot be blank
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" formControlName="email"
+                   placeholder="Enter your email"
+                   [ngClass]="{'invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
+            <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+              Email is required
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
+              Please enter a valid email
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Section -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-input" formControlName="password"
+                   placeholder="Create a password"
+                   [ngClass]="{'invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
+            <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+              Password is required
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['weakPassword'] && registerForm.get('password')?.touched">
+              6+ chars with 1 uppercase & 1 number
+            </div>
+            <div class="password-strength">
+              <div class="strength-bar" [ngClass]="getPasswordStrengthClass()" 
+                   [style.width.%]="getPasswordStrength()"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" class="form-input" formControlName="confirmPassword"
+                   placeholder="Confirm your password"
+                   [ngClass]="{'invalid': registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched}">
+            <div class="error-message" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+              Passwords don't match
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Details -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Gender</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" formControlName="gender" value="Male" checked>
+                <span class="radio-label">Male</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" formControlName="gender" value="Female">
+                <span class="radio-label">Female</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Hobbies</label>
+            <div class="checkbox-group">
+              <ng-container *ngFor="let hobby of hobbiesList">
+                <label class="checkbox-option">
+                  <input type="checkbox" [value]="hobby" (change)="onCheckboxChange($event)">
+                  <span class="checkbox-label">{{ hobby }}</span>
+                </label>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional Info -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" class="form-input" formControlName="role"
+                    [ngClass]="{'invalid': registerForm.get('role')?.invalid && registerForm.get('role')?.touched}">
+              <option value="">Select your role</option>
+              <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            </select>
+            <div class="error-message" *ngIf="registerForm.get('role')?.errors?.['required'] && registerForm.get('role')?.touched">
+              Please select a role
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="showAdminDropdown">
+          <div class="form-group">
+            <label for="assignedAdmin">Assign Admin</label>
+            <select id="assignedAdmin" class="form-input" formControlName="assignedAdmin"
+                    [ngClass]="{'invalid': registerForm.get('assignedAdmin')?.invalid && registerForm.get('assignedAdmin')?.touched}">
+              <option value="">Select admin</option>
+              <option *ngFor="let admin of admins" [value]="admin.email">{{ admin.name }}</option>
+            </select>
+            <div class="error-message" *ngIf="registerForm.get('assignedAdmin')?.errors?.['required'] && registerForm.get('assignedAdmin')?.touched">
+              Please select an admin
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="salary">Salary</label>
+            <input type="text" id="salary" class="form-input" formControlName="salary"
+                   placeholder="Enter salary"
+                   [ngClass]="{'invalid': registerForm.get('salary')?.invalid && registerForm.get('salary')?.touched}">
+            <div class="error-message" *ngIf="registerForm.get('salary')?.errors?.['required'] && registerForm.get('salary')?.touched">
+              Salary is required
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('salary')?.errors?.['pattern'] && registerForm.get('salary')?.touched">
+              Only digits allowed
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="designation">Designation</label>
+            <input type="text" id="designation" class="form-input" formControlName="designation"
+                   placeholder="Enter designation"
+                   [ngClass]="{'invalid': registerForm.get('designation')?.invalid && registerForm.get('designation')?.touched}">
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-group">
+            <label for="contact">Contact Number</label>
+            <input type="text" id="contact" class="form-input" formControlName="contact"
+                   placeholder="Enter contact number"
+                   [ngClass]="{'invalid': registerForm.get('contact')?.invalid && registerForm.get('contact')?.touched}">
+            <div class="error-message" *ngIf="registerForm.get('contact')?.errors?.['required'] && registerForm.get('contact')?.touched">
+              Contact is required
+            </div>
+            <div class="error-message" *ngIf="registerForm.get('contact')?.errors?.['pattern'] && registerForm.get('contact')?.touched">
+              10-digit number required
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 mt-2">
+          <button type="submit" class="register-button" [disabled]="registerForm.invalid">
+            <span *ngIf="!isSubmitting">Create Account</span>
+            <span *ngIf="isSubmitting">
+              <span class="spinner"></span>
+              Processing...
+            </span>
+          </button>
+        </div>
+
+        <!-- Login Link -->
+        <div class="col-12 text-center mt-3">
+          <p class="login-link">Already have an account? <a routerLink="/login">Sign in</a></p>
+        </div>
+      </div>
+    </form>
   </div>
-</div>
-
-<!-- src/app/auth/register/register.component.html -->
-<div class="container py-5">
-  <h2>📝 Register</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
-
-    <!-- Name -->
-    <div class="mb-3">
-      <label>Name</label>
-      <input type="text" class="form-control" formControlName="name">
-      <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
-      <small *ngIf="registerForm.get('name')?.errors?.['whitespace']">Name cannot be blank.</small>
-    </div>
-
-    <!-- Email -->
-    <div class="mb-3">
-      <label>Email</label>
-      <input type="email" class="form-control" formControlName="email">
-      <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
-      <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
-    </div>
-
-    <!-- Password -->
-    <div class="mb-3">
-      <label>Password</label>
-      <input type="password" class="form-control" formControlName="password">
-      <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
-      <small *ngIf="registerForm.get('password')?.errors?.['weakPassword']">Use at least 6 chars, 1 uppercase, 1 number.</small>
-    </div>
-    <div class="mb-3">
-      <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" class="form-control" />
-      <small class="text-danger"
-        *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
-          Passwords do not match.
-      </small>
-    </div>
-
-
-    <!-- Gender -->
-    <div class="mb-3">
-      <label>Gender</label><br>
-      <label><input type="radio" formControlName="gender" value="Male"> Male</label>
-      <label class="ms-3"><input type="radio" formControlName="gender" value="Female"> Female</label>
-    </div>
-
-    <!-- Hobbies -->
-    <div class="mb-3">
-      <label>Hobbies</label><br>
-      <ng-container *ngFor="let hobby of hobbiesList">
-        <label><input type="checkbox" [value]="hobby" (change)="onCheckboxChange($event)"> {{ hobby }}</label>&nbsp;
-      </ng-container>
-    </div>
-
-    <!-- Role -->
-    <div class="mb-3">
-      <label>Role</label>
-      <select formControlName="role" class="form-select">
-        <option value="">-- Select --</option>
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
-    </div>
-
-    <!-- Admin Dropdown -->
-    <div class="mb-3" *ngIf="showAdminDropdown">
-      <label>Assign Admin</label>
-      <select formControlName="assignedAdmin" class="form-select">
-        <option value="">-- Select Admin --</option>
-        <option *ngFor="let admin of admins" [value]="admin.email">{{ admin.name }}</option>
-      </select>
-      <small *ngIf="registerForm.get('assignedAdmin')?.errors?.['required']">Admin selection required for HR.</small>
-    </div>
-
-    <!-- Salary -->
-    <div class="mb-3">
-      <label>Salary</label>
-      <input type="text" class="form-control" formControlName="salary">
-      <small *ngIf="registerForm.get('salary')?.errors?.['required']">Salary is required.</small>
-      <small *ngIf="registerForm.get('salary')?.errors?.['pattern']">Only digits allowed.</small>
-    </div>
-
-    <!-- Designation -->
-    <div class="mb-3">
-      <label>Designation</label>
-      <input type="text" class="form-control" formControlName="designation">
-    </div>
-
-    <!-- Contact -->
-    <div class="mb-3">
-      <label>Contact</label>
-      <input type="text" class="form-control" formControlName="contact">
-      <small *ngIf="registerForm.get('contact')?.errors?.['required']">Contact is required.</small>
-      <small *ngIf="registerForm.get('contact')?.errors?.['pattern']">Must be 10-digit number.</small>
-    </div>
-
-    <!-- Submit -->
-  <button class="btn btn-primary w-100" type="submit" [disabled]="registerForm.invalid">Register</button>
-  </form>
 </div>

@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-
-export interface Employee {
-  name: string;
-  gender: string;
-  role: string;
-  salary: number;
-  contact: string;
-  hobbies: string[];
-  addedBy: string; // HR email
-  createdAt: Date;
-}
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-member',
@@ -22,11 +12,16 @@ export class AddMemberComponent implements OnInit {
   roles = ['Team Leader', 'Machine Operator', 'HR Executive'];
   hobbiesList = ['Reading', 'Gaming', 'Traveling'];
   currentUser: any;
+  isSubmitting = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+    this.initForm();
+  }
+
+  initForm() {
     this.memberForm = this.fb.group({
       name: ['', [Validators.required]],
       gender: ['Male', Validators.required],
@@ -52,20 +47,25 @@ export class AddMemberComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.memberForm.invalid) {
+    if (this.memberForm.invalid || this.isSubmitting) {
       this.memberForm.markAllAsTouched();
       return;
     }
 
-    const employees = JSON.parse(localStorage.getItem('employees') || '[]');
-    employees.push({
-      ...this.memberForm.value,
-      addedBy: this.currentUser.email,
-      createdAt: new Date()
-    });
+    this.isSubmitting = true;
 
-    localStorage.setItem('employees', JSON.stringify(employees));
-    alert('Employee added!');
-    this.memberForm.reset();
+    // Simulate API call delay
+    setTimeout(() => {
+      const employees = JSON.parse(localStorage.getItem('employees') || '[]');
+      employees.push({
+        ...this.memberForm.value,
+        addedBy: this.currentUser.email,
+        createdAt: new Date()
+      });
+
+      localStorage.setItem('employees', JSON.stringify(employees));
+      this.isSubmitting = false;
+      this.router.navigate(['/user-dashboard']);
+    }, 1000);
   }
 }

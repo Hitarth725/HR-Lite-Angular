@@ -1,28 +1,56 @@
-<p>admin-dashboard works!</p>
-<!-- admin-dashboard.component.html -->
-<div class="container py-4">
-  <h2 class="mb-4">👑 Admin Dashboard - Manage HRs</h2>
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
+      </svg>
+      Admin Dashboard
+    </h1>
+    <p class="dashboard-subtitle">Manage HR accounts and permissions</p>
+  </div>
 
-  <div class="row">
-    <div class="col-md-4 mb-3" *ngFor="let hr of hrList">
-      <div class="card border border-secondary shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ hr.name }}</h5>
-          <p class="card-text">
-            <strong>Email:</strong> {{ hr.email }}<br>
-            <strong>Contact:</strong> {{ hr.contact }}<br>
-            <strong>Status:</strong> 
-            <span class="badge" [ngClass]="{'bg-success': hr.status === 'Active', 'bg-danger': hr.status === 'Inactive'}">
-              {{ hr.status }}
-            </span>
-          </p>
-          <div class="d-flex gap-2 mt-3">
-            <button class="btn btn-sm btn-warning" (click)="toggleStatus(hr)">
-              {{ hr.status === 'Active' ? 'Deactivate' : 'Activate' }}
-            </button>
-            <button class="btn btn-sm btn-danger" (click)="deleteHR(hr.email)">Delete</button>
-          </div>
+  <div class="hr-grid">
+    <div class="hr-card" *ngFor="let hr of hrList">
+      <div class="hr-card-header">
+        <h3 class="hr-name">{{ hr.name }}</h3>
+        <span class="status-badge" [ngClass]="{
+          'active': hr.status === 'Active',
+          'inactive': hr.status === 'Inactive'
+        }">
+          {{ hr.status }}
+        </span>
+      </div>
+      
+      <div class="hr-details">
+        <div class="detail-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>{{ hr.email }}</span>
         </div>
+        
+        <div class="detail-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>{{ hr.contact }}</span>
+        </div>
+      </div>
+
+      <div class="hr-actions">
+        <button class="action-button toggle-status" (click)="toggleStatus(hr)">
+          {{ hr.status === 'Active' ? 'Deactivate' : 'Activate' }}
+        </button>
+        <button class="action-button delete" (click)="deleteHR(hr.email)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          Delete
+        </button>
       </div>
     </div>
   </div>
