@@ -19,8 +19,8 @@ export class HttpPageComponent implements OnInit {
   constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
-    this.posts.unshift({ id: Date.now(), ...this.newPost });
-
+    //this.posts.unshift({ id: Date.now(), ...this.newPost });
+    this.loadPosts();
   }
 
   loadPosts() {
@@ -37,27 +37,63 @@ export class HttpPageComponent implements OnInit {
     });
   }
 
-  submitPost() {
-  if (this.isLoading) return;
+  // submitPost() {
+  // if (this.isLoading) return;
+  // this.isLoading = true;
+  // this.errorMessage = '';
 
+  // if (this.updateMode) {
+  //   this.httpService.updatePost({ id: this.selectedPostId, ...this.newPost }).subscribe({
+  //     next: () => {
+  //       if (this.updateMode) {
+  //       const index = this.posts.findIndex(p => p.id === this.selectedPostId);
+  //         if (index !== -1) {
+  //         this.posts[index] = { id: this.selectedPostId, ...this.newPost };
+  //      }
+  //       this.showToast('Post updated successfully!');
+  //     } else {
+  //       //this.posts.unshift({ id: Date.now(), ...this.newPost });
+  //       this.loadPosts();
+  //       this.showToast('Post created successfully!');
+  //     }
+  //     this.isLoading = false;
+  //     this.resetForm();
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = err.message;
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // } else {
+  //   this.httpService.addPost(this.newPost).subscribe({
+  //     next: (res) => {
+  //       this.posts.unshift({ id: Date.now(), ...this.newPost }); // simulate ID
+  //       //this.loadPosts();
+  //       this.isLoading = false;
+  //       this.resetForm();
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = err.message;
+  //       this.isLoading = false;
+  //     }
+  //   });
+  //  }
+  // }
+submitPost() {
+  if (this.isLoading) return;
   this.isLoading = true;
   this.errorMessage = '';
 
   if (this.updateMode) {
     this.httpService.updatePost({ id: this.selectedPostId, ...this.newPost }).subscribe({
       next: () => {
-        if (this.updateMode) {
         const index = this.posts.findIndex(p => p.id === this.selectedPostId);
-          if (index !== -1) {
+        if (index !== -1) {
           this.posts[index] = { id: this.selectedPostId, ...this.newPost };
-       }
+        }
+        this.isLoading = false;
+        this.resetForm();
         this.showToast('Post updated successfully!');
-      } else {
-        this.posts.unshift({ id: Date.now(), ...this.newPost });
-        this.showToast('Post created successfully!');
-      }
-      this.isLoading = false;
-      this.resetForm();
       },
       error: (err) => {
         this.errorMessage = err.message;
@@ -67,17 +103,18 @@ export class HttpPageComponent implements OnInit {
   } else {
     this.httpService.addPost(this.newPost).subscribe({
       next: (res) => {
-        this.posts.unshift({ id: Date.now(), ...this.newPost }); // simulate ID
+        this.posts.unshift({ id: Date.now(), ...this.newPost }); // Simulate
         this.isLoading = false;
         this.resetForm();
+        this.showToast('Post created successfully!'); // ✅ SHOW TOAST
       },
       error: (err) => {
         this.errorMessage = err.message;
         this.isLoading = false;
       }
     });
-   }
   }
+}
 
   edit(post: any) {
     this.updateMode = true;

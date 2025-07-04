@@ -11,8 +11,45 @@
     <p class="dashboard-subtitle">Manage HR accounts and permissions</p>
   </div>
 
+  <div class="stats-cards">
+  <div class="stat-card">
+    <h4>Total HRs</h4>
+    <p>{{ hrList.length }}</p>
+  </div>
+
+  <div class="stat-card">
+    <h4>Active HRs</h4>
+    <p>{{ activeCount }}</p>
+  </div>
+
+  <div class="stat-card">
+    <h4>Inactive HRs</h4>
+    <p>{{ inactiveCount }}</p>
+  </div>
+
+  <div class="stat-card">
+    <h4>HRs This Week</h4>
+    <p>{{ thisWeekCount }}</p>
+  </div>
+</div>
+
+  <div class="filter-bar">
+  <input
+    type="text"
+    [(ngModel)]="searchText"
+    placeholder="Search by name or email"
+    class="search-input"
+  />
+
+  <select [(ngModel)]="selectedStatus" class="status-select">
+    <option value="">All Status</option>
+    <option value="Active">Active</option>
+    <option value="Inactive">Inactive</option>
+  </select>
+  </div>
+
   <div class="hr-grid">
-    <div class="hr-card" *ngFor="let hr of hrList">
+    <div class="hr-card" *ngFor="let hr of filteredHRs">
       <div class="hr-card-header">
         <h3 class="hr-name">{{ hr.name }}</h3>
         <span class="status-badge" [ngClass]="{
@@ -22,7 +59,7 @@
           {{ hr.status }}
         </span>
       </div>
-      
+
       <div class="hr-details">
         <div class="detail-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -31,7 +68,7 @@
           </svg>
           <span>{{ hr.email }}</span>
         </div>
-        
+
         <div class="detail-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -54,4 +91,21 @@
       </div>
     </div>
   </div>
+  <div *ngIf="filteredHRs.length === 0" class="empty-state-card">
+  <div class="empty-icon">⚠️</div>
+  <h3>No HR Available Yet</h3>
+  <p>Get started by adding your first team member</p>
+
+  <ng-container *ngIf="filteredHRs.length > 0; else emptyState">
+  <div class="hr-grid">
+    <div class="hr-card" *ngFor="let hr of filteredHRs"> ... </div>
+  </div>
+</ng-container>
+
+<ng-template #emptyState>
+  <!-- Empty state content -->
+</ng-template>
+
+</div>
+
 </div>
