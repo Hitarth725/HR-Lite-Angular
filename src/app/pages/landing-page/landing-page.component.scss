@@ -1,0 +1,371 @@
+// Variables
+$primary: #4f46e5;
+$primary-light: #e0e7ff;
+$primary-dark: #4338ca;
+$secondary: #10b981;
+$dark: #1e293b;
+$gray: #64748b;
+$light-gray: #f8fafc;
+$white: #ffffff;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+$radius-sm: 0.375rem;
+$radius: 0.5rem;
+$radius-lg: 0.75rem;
+$transition: all 0.3s ease;
+
+// Base Styles
+.landing-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: $dark;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: $radius;
+  font-weight: 500;
+  text-decoration: none;
+  transition: $transition;
+  gap: 0.5rem;
+
+  &-primary {
+    background: $primary;
+    color: $white;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      background: $primary-dark;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &-secondary {
+    background: $white;
+    color: $primary;
+    border: 1px solid $primary-light;
+
+    &:hover {
+      background: $primary-light;
+      transform: translateY(-2px);
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &-outline {
+    background: transparent;
+    color: $primary;
+    border: 1px solid $primary;
+
+    &:hover {
+      background: $primary-light;
+      transform: translateY(-2px);
+      box-shadow: $shadow-sm;
+    }
+  }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: $dark;
+  }
+
+  .section-subtitle {
+    color: $gray;
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Hero Section
+.hero-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #f0f4ff 0%, $white 100%);
+
+  .hero-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .hero-text {
+    flex: 1;
+
+    h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+
+      span {
+        color: $primary;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 2.25rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: $gray;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+  }
+
+  .trust-badges {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $gray;
+      font-size: 0.875rem;
+
+      svg {
+        color: $secondary;
+      }
+    }
+  }
+
+  .hero-image {
+    flex: 1;
+
+    .dashboard-preview {
+      width: 100%;
+      max-width: 600px;
+      border-radius: $radius-lg;
+      box-shadow: $shadow-lg;
+      transition: $transition;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+// Features Section
+.features-section {
+  padding: 5rem 0;
+  background: $light-gray;
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: $white;
+    border-radius: $radius;
+    padding: 2rem;
+    box-shadow: $shadow-sm;
+    transition: $transition;
+    text-align: center;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: $shadow-md;
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1.5rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: $dark;
+    }
+
+    p {
+      color: $gray;
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+// Testimonials Section
+.testimonials-section {
+  padding: 5rem 0;
+  background: $white;
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    background: $white;
+    border-radius: $radius;
+    padding: 2rem;
+    box-shadow: $shadow-sm;
+    border: 1px solid #e2e8f0;
+    transition: $transition;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: $shadow-md;
+    }
+
+    .testimonial-content {
+      position: relative;
+      margin-bottom: 1.5rem;
+
+      .quote-icon {
+        position: absolute;
+        top: -1rem;
+        left: -0.5rem;
+        font-size: 3rem;
+        color: $primary-light;
+        opacity: 0.5;
+        line-height: 1;
+      }
+
+      p {
+        color: $gray;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .author-info {
+        h4 {
+          font-size: 1rem;
+          margin-bottom: 0.25rem;
+          color: $dark;
+        }
+
+        p {
+          font-size: 0.875rem;
+          color: $gray;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+// CTA Section
+.cta-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  color: $white;
+  text-align: center;
+
+  .cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: $white;
+      color: $primary;
+
+      &:hover {
+        background: rgba($white, 0.9);
+      }
+    }
+
+    .btn-outline {
+      border-color: $white;
+      color: $white;
+
+      &:hover {
+        background: rgba($white, 0.1);
+      }
+    }
+  }
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 3rem 0;
+  }
+
+  .features-section,
+  .testimonials-section,
+  .cta-section {
+    padding: 3rem 0;
+  }
+}

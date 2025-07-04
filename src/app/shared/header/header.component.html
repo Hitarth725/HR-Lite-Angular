@@ -1,41 +1,113 @@
 <header class="app-header">
   <div class="header-container">
+    <!-- Logo -->
     <div class="logo-container">
       <a routerLink="/" class="logo-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
-        <span>HR Lite</span>
+        <span class="logo-text">HR Lite</span>
       </a>
     </div>
 
-    <nav class="main-nav">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path *ngIf="!mobileMenuOpen" d="M3 12h18M3 6h18M3 18h18"></path>
+        <path *ngIf="mobileMenuOpen" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="main-nav" *ngIf="user" [class.mobile-visible]="mobileMenuOpen">
       <ul class="nav-list">
-        <li class="nav-item" *ngIf="user?.role === 'Admin'">
-          <a class="nav-link" routerLink="/admin-dashboard" routerLinkActive="active">Admin Dashboard</a>
+        <li *ngIf="user?.role === 'Admin'">
+          <a routerLink="/admin-dashboard" routerLinkActive="active" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <path d="M9 22V12h6v10"></path>
+            </svg>
+            <span>Admin Dashboard</span>
+          </a>
         </li>
-        <li class="nav-item" *ngIf="user?.role === 'HR'">
-          <a class="nav-link" routerLink="/user-dashboard" routerLinkActive="active">HR Dashboard</a>
+        <li *ngIf="user?.role === 'HR'">
+          <a routerLink="/user-dashboard" routerLinkActive="active" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>HR Dashboard</span>
+          </a>
         </li>
-        <li class="nav-item" *ngIf="user?.role === 'HR'">
-          <a class="nav-link" routerLink="/add-member" routerLinkActive="active">Add Member</a>
+        <li *ngIf="user?.role === 'HR'">
+          <a routerLink="/add-member" routerLinkActive="active" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            <span>Add Member</span>
+          </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/http" routerLinkActive="active">HTTP Page</a>
+        <li>
+          <a routerLink="/http" routerLinkActive="active" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 12h16"></path>
+              <path d="M13 5l7 7-7 7"></path>
+            </svg>
+            <span>HTTP Page</span>
+          </a>
         </li>
       </ul>
     </nav>
 
-    <div class="user-actions">
-      <button class="logout-button" (click)="logout()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
+    <!-- Auth Links (When not logged in) -->
+    <div class="auth-links" *ngIf="!user" [class.mobile-visible]="mobileMenuOpen">
+      <a routerLink="/auth/login" class="auth-link login-link">
+        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10 17 15 12 10 7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
         </svg>
-        Logout
-      </button>
+        <span>Login</span>
+      </a>
+      <a routerLink="/auth/register" class="auth-link register-link">
+        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        <span>Register</span>
+      </a>
+    </div>
+
+    <!-- User Actions -->
+    <div class="user-actions" *ngIf="user" [class.mobile-visible]="mobileMenuOpen">
+      <div class="user-profile" (click)="toggleUserDropdown()">
+        <div class="avatar">
+          {{ user.name.charAt(0) }}
+        </div>
+        <span class="user-name">{{ user.name }}</span>
+        <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </div>
+
+      <div class="user-dropdown" *ngIf="userDropdownOpen">
+        <button class="dropdown-item" (click)="logout()">
+          <svg class="dropdown-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   </div>
 </header>
