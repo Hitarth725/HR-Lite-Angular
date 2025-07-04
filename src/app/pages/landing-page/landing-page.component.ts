@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
+  mobileMenuOpen = false;
+  activeFaqIndex: number | null = null;
 
   constructor(private router: Router) {}
 
@@ -19,6 +21,17 @@ export class LandingPageComponent implements OnInit {
       } else if (user.role === 'HR') {
         this.router.navigate(['/hr-dashboard']);
       }
+    }
+  }
+
+  toggleFaq(index: number): void {
+    this.activeFaqIndex = this.activeFaqIndex === index ? null : index;
+  }
+
+  scrollTo(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }
